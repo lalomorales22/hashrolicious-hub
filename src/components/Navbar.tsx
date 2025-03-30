@@ -1,10 +1,17 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Search, ShoppingCart, User } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Check if user is logged in
+    const user = localStorage.getItem('user');
+    setIsLoggedIn(!!user);
+  }, []);
 
   return (
     <nav className="sticky top-0 z-50 bg-ghibli-cream/80 backdrop-blur-md border-b border-ghibli-beige">
@@ -45,11 +52,17 @@ const Navbar = () => {
             <button className="p-2 text-ghibli-brown hover:text-ghibli-green transition-colors">
               <ShoppingCart size={20} />
             </button>
-            <Link to="/signin" className="p-2 text-ghibli-brown hover:text-ghibli-green transition-colors">
-              <User size={20} />
-            </Link>
-            <Link to="/brand-signup" className="ghibli-button">
-              Brand Sign Up
+            {isLoggedIn ? (
+              <Link to="/profile" className="p-2 text-ghibli-brown hover:text-ghibli-green transition-colors">
+                <User size={20} />
+              </Link>
+            ) : (
+              <Link to="/signin" className="p-2 text-ghibli-brown hover:text-ghibli-green transition-colors">
+                <User size={20} />
+              </Link>
+            )}
+            <Link to={isLoggedIn ? "/profile" : "/brand-signup"} className="ghibli-button">
+              {isLoggedIn ? "My Profile" : "Brand Sign Up"}
             </Link>
           </div>
 
@@ -100,13 +113,17 @@ const Navbar = () => {
               <button className="p-2 text-ghibli-brown">
                 <ShoppingCart size={20} />
               </button>
-              <Link to="/signin" className="p-2 text-ghibli-brown">
+              <Link to={isLoggedIn ? "/profile" : "/signin"} className="p-2 text-ghibli-brown">
                 <User size={20} />
               </Link>
             </div>
             <div className="px-4 pt-2">
-              <Link to="/brand-signup" className="ghibli-button block text-center">
-                Brand Sign Up
+              <Link 
+                to={isLoggedIn ? "/profile" : "/register"} 
+                className="ghibli-button block text-center"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {isLoggedIn ? "My Profile" : "Sign Up"}
               </Link>
             </div>
           </div>
