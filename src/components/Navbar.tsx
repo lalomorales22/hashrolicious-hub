@@ -119,11 +119,11 @@ const Navbar = () => {
             </div>
             <div className="px-4 pt-2">
               <Link 
-                to={isLoggedIn ? "/profile" : "/register"} 
+                to={isLoggedIn ? "/profile" : "/brand-signup"} 
                 className="ghibli-button block text-center"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {isLoggedIn ? "My Profile" : "Sign Up"}
+                {isLoggedIn ? "My Profile" : "Brand Sign Up"}
               </Link>
             </div>
           </div>
